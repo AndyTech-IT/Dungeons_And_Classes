@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dungeons_And_Classes.Assets.Players;
 
 namespace Dungeons_And_Classes.Assets
 {

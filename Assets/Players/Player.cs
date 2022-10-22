@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dungeons_And_Classes.Assets
+namespace Dungeons_And_Classes.Assets.Players
 {
     public abstract class Player
     {
@@ -39,6 +39,10 @@ namespace Dungeons_And_Classes.Assets
             Passed = false;
             _dangeon_cards = Array.Empty<Monster>();
             _dropped_cards = Array.Empty<Monster>();
+        }
+
+        public void Clear_Points()
+        {
             Win_Points = 0;
             Defeat_Points = 0;
         }
@@ -50,6 +54,12 @@ namespace Dungeons_And_Classes.Assets
         {
             Passed = Want_pass(e);
             return Passed;
+        }
+
+        public void Forsed_Add(Monster monster)
+        {
+            Forsed_add(monster);
+            _dangeon_cards = _dangeon_cards.Append(monster);
         }
 
         public Move_Data Make_Move(Equipment e, Monster monster)
@@ -69,6 +79,7 @@ namespace Dungeons_And_Classes.Assets
         public Spell Make_Spell(Equipment e, Spell source) => Make_spell(e, source);
 
 
+        protected abstract void Forsed_add(Monster monster);
         protected abstract bool Want_pass(Equipment e);
         protected abstract Move_Data Make_move(Equipment e, Monster monster);
         protected abstract Spell Make_spell(Equipment e, Spell source);

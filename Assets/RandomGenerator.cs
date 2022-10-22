@@ -8,7 +8,7 @@ namespace RandomGenerator
 {
     public class Random_Generator
     {
-        public double Next_Double(double max_value)
+        public double Next_Double(double max_value = 1)
         {
             return Random.NextDouble() * max_value;
         }
@@ -50,7 +50,11 @@ namespace RandomGenerator
                 int index = Next_Index(source);
                 result[i] = source[index];
                 if (repiats == false)
-                    source = source.Take(index).Union(source.Skip(index + 1)).ToArray();
+                {
+                    var before = source.Take(index);
+                    var after = source.Skip(index + 1);
+                    source = before.Concat(after).ToArray();
+                }
             }
             return result;
         }

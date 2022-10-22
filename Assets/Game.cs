@@ -1,6 +1,7 @@
 ﻿using Dungeons_And_Classes.Assets.Dungeon;
 using Dungeons_And_Classes.Assets.Game_Hero;
 using Dungeons_And_Classes.Assets.Game_Hero.Hero_Items;
+using Dungeons_And_Classes.Assets.Players;
 using RandomGenerator;
 using System;
 using System.Collections.Generic;
@@ -43,6 +44,8 @@ namespace Dungeons_And_Classes.Assets
 
         public Action<Player>? Player_Enter_Dangeon;
         public Action<Player, bool, int>? Player_Exit_Dangeon;
+
+        public Action? Game_Over;
 
         public Game(Player[] players, Monster_Type[]? cards_template = null)
         {
@@ -119,8 +122,12 @@ namespace Dungeons_And_Classes.Assets
                 Travel_Round_Result travel = Next_Travel_Round();
 
                 Player_Exit_Dangeon?.Invoke(travel_player, travel.Result_Helth_Points > 0, travel.Result_Helth_Points);
-
             }
+
+            foreach (var player in _players)
+                player.Clear_Points();
+
+            Game_Over?.Invoke();
         }
 
         private Trade_Round_Result Next_Trade_Round()
@@ -143,7 +150,7 @@ namespace Dungeons_And_Classes.Assets
                 if (player.Want_Pass(_equipment))
                 {
                     // When you last who not passed
-                    if (_players.Where(p => p.Passed == false).Count() == 1)
+                    if (_players.Where(p => p.Passed == false && p.Defeat_Points < MAX_DEFEAT).Count() == 1)
                     {
                         return new(player);
                     }
@@ -159,7 +166,16 @@ namespace Dungeons_And_Classes.Assets
                 }
 
                 Monster card = _source_cards[card_i];
-                Move_Data data = player.Make_Move(_equipment, card);
+                Move_Data data;
+                if (_equipment.Items.Any(i => i.Dropped == false))
+                {
+                     data = player.Make_Move(_equipment, card);
+                }
+                else
+                {
+                    player.Forsed_Add(card);
+                    data = new();
+                }
 
                 if (data.Dropped_Item is not null)
                 {

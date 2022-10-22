@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Dungeons_And_Classes.Assets.Game_Hero.Hero_Items.Spell;
 
 namespace Dungeons_And_Classes.Assets.Game_Hero
 {
@@ -100,14 +101,14 @@ namespace Dungeons_And_Classes.Assets.Game_Hero
             }
         }
 
-        public void Make_Spell(Spell.Spell_Slot slot, Spell.Spell_Type type, Monster target)
+        public void Make_Spell(Spell spell)
         {
-            switch (type)
+            switch (spell.Spells_Type)
             {
-                case Spell.Spell_Type.Blank_Spell:
+                case Spell_Type.Blank_Spell:
                     break;
-                case Spell.Spell_Type.Death_Curse:
-                    _spells = _spells.Cast<Spell>().Select(s => (Spell.Spell_Slot)s.Slot == slot ? Spell.Make_Death_Curse(s, target) : s);
+                case Spell_Type.Death_Curse:
+                    _spells = _spells.Cast<Spell>().Select(s => s.Slot == spell.Slot ? spell : s);
                     break;
             }
         }

@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Dungeons_And_Classes.Assets
 {
-    public struct Travel_Round_Result
+    public struct Trade_Round_Result
     {
-        public readonly int Result_Helth_Points;
+        public readonly Player Traveling_Player;
 
-        public Travel_Round_Result(int hp)
+        public Trade_Round_Result(Player player)
         {
-            Result_Helth_Points = hp;
+            Traveling_Player = player;
         }
     }
 }

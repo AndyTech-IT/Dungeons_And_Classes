@@ -55,10 +55,9 @@ namespace Dungeons_And_Classes.Assets
 
         public Spell Make_Spell(Equipment e, Spell source) => Make_spell(e, source);
 
+
         protected abstract bool Move_or_pass(Equipment e);
-
         protected abstract Move_Data Make_move(Equipment e, Monster monster);
-
         protected abstract Spell Make_spell(Equipment e, Spell source);
     }
 }
